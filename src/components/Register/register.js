@@ -87,7 +87,6 @@ const Register = () => {
   const handleValidate = (e) => {
     e.preventDefault();
     if (isValidate()) {
-      toast.success("You have successfully registered");
       axios
         .post("http://localhost:8080/api/register", {
           userName,
@@ -97,11 +96,15 @@ const Register = () => {
           address,
           password,
         })
-        .then((data) => {
-          console.log(data);
+        .then((res) => {
+          if (res.data.code != 1) {
+            toast.error(res.data.message ?? "Something went wrong!");
+          } else {
+            toast.success("You have successfully registered");
+          }
         })
         .catch((error) => {
-          console.log(error);
+          toast.error(error.message);
         });
     }
   };
@@ -226,7 +229,7 @@ const Register = () => {
                 />
 
                 <button type="submit" className="btn btn-info">
-                  Login
+                  Register
                 </button>
               </div>
               <div>

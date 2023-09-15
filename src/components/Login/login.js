@@ -1,18 +1,49 @@
-import { useEffect } from "react";
-import "./login.scss";
+import { useState } from "react";
 import axios from "axios";
+import "./login.scss";
+import { toast } from "react-toastify";
 
 const Login = () => {
-  // useEffect(() => {
-  //   axios
-  //     .get("http://localhost:8080/api/test-api")
-  //     .then((data) => {
-  //       console.log(data);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // }, []);
+  const [key, setkey] = useState("");
+  const [password, setPassword] = useState("");
+
+  const [checkObject, setCheckObject] = useState({
+    isValidKey: true,
+    isValidPassword: true,
+  });
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+
+    let newState = {
+      isValidKey: true,
+      isValidPassword: true,
+    };
+
+    if (key === "") {
+      newState = { ...newState, isValidKey: false };
+    }
+    if (password === "") {
+      newState = { ...newState, isValidPassword: false };
+    }
+    setCheckObject(newState);
+
+    axios
+      .post("http://localhost:8080/api/login", {
+        key,
+        password,
+      })
+      .then((res) => {
+        if (res.status === 200 && res.data.code === 1) {
+          toast.success(res.data.message);
+        } else {
+          toast.error(res.data.message);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   return (
     <div className="login-container">
@@ -28,11 +59,17 @@ const Login = () => {
                   <b>Username</b>
                 </label>
                 <input
-                  className="form-control"
+                  className={
+                    checkObject.isValidKey
+                      ? "form-control"
+                      : "form-control is-invalid"
+                  }
                   type="text"
                   placeholder="Enter Username"
                   name="uname"
                   id="uname"
+                  value={key}
+                  onChange={(e) => setkey(e.target.value)}
                   required
                 />
 
@@ -40,15 +77,25 @@ const Login = () => {
                   <b>Password</b>
                 </label>
                 <input
-                  className="form-control"
+                  className={
+                    checkObject.isValidPassword
+                      ? "form-control"
+                      : "form-control is-invalid"
+                  }
                   type="password"
                   placeholder="Enter Password"
                   name="psw"
                   id="psw"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   required
                 />
 
-                <button type="submit" className="btn btn-info">
+                <button
+                  type="submit"
+                  className="btn btn-info"
+                  onClick={(e) => handleLogin(e)}
+                >
                   Login
                 </button>
               </div>
