@@ -1,7 +1,8 @@
-import { useState } from "react";
 import axios from "axios";
-import "./login.scss";
+import { useState } from "react";
 import { toast } from "react-toastify";
+import { useHistory } from "react-router-dom";
+import "./login.scss";
 
 const Login = () => {
   const [key, setkey] = useState("");
@@ -11,6 +12,17 @@ const Login = () => {
     isValidKey: true,
     isValidPassword: true,
   });
+
+  const checkFields = (fields) => {
+    for (let field in fields) {
+      if (fields[field] === false) {
+        return false;
+      }
+    }
+    return true;
+  };
+
+  let history = useHistory();
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -26,23 +38,32 @@ const Login = () => {
     if (password === "") {
       newState = { ...newState, isValidPassword: false };
     }
+
     setCheckObject(newState);
 
-    axios
-      .post("http://localhost:8080/api/login", {
-        key,
-        password,
-      })
-      .then((res) => {
-        if (res.status === 200 && res.data.code === 1) {
-          toast.success(res.data.message);
-        } else {
-          toast.error(res.data.message);
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    if (checkFields(newState) === false) {
+      toast.warning("Your need to fill all fields");
+    } else {
+      axios
+        .post("http://localhost:8080/api/login", {
+          key,
+          password,
+        })
+        .then((res) => {
+          if (res.status === 200 && res.data.code === 1) {
+            toast.success(res.data.message);
+            setTimeout(() => {
+              history.push("/");
+            }, 1000);
+          } else {
+            toast.error(res.data.message);
+          }
+        })
+        .catch((error) => {
+          toast.error(error.message);
+          console.log(error);
+        });
+    }
   };
 
   return (
@@ -71,6 +92,7 @@ const Login = () => {
                   value={key}
                   onChange={(e) => setkey(e.target.value)}
                   required
+                  autoComplete="on"
                 />
 
                 <label htmlFor="psw">
@@ -89,6 +111,7 @@ const Login = () => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
+                  autoComplete="on"
                 />
 
                 <button

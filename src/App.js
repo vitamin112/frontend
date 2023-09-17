@@ -1,9 +1,10 @@
 import { Route, Switch } from "react-router-dom";
 import Nav from "./components/Navigation/Nav";
-import "./App.scss";
 import Login from "./components/Login/login";
 import Register from "./components/Register/register";
 import { ToastContainer } from "react-toastify";
+import UserList from "./components/ManageUser/User";
+import "./App.scss";
 import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
@@ -11,7 +12,9 @@ const App = () => {
     <div>
       <Nav />
       <Switch>
-        <Route path="/news">News</Route>
+        <Route path="/users">
+          <UserList />
+        </Route>
         <Route path="/about">About</Route>
         <Route path="/contact">contact</Route>
         <Route path="/login">

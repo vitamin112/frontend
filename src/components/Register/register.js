@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
+import { useHistory } from "react-router-dom";
 import axios from "axios";
 import "./register.scss";
 
@@ -19,6 +20,8 @@ const Register = () => {
   const [isValidAddress, setIsValidAddress] = useState(true);
   const [isValidPassword, setIsValidPassword] = useState(true);
   const [isValidConfirmPassword, setIsValidConfirmPassword] = useState(true);
+
+  let history = useHistory();
 
   const isValidate = () => {
     if (userName === "") {
@@ -97,10 +100,13 @@ const Register = () => {
           password,
         })
         .then((res) => {
-          if (res.data.code != 1) {
+          if (res.data.code !== 1) {
             toast.error(res.data.message ?? "Something went wrong!");
           } else {
             toast.success("You have successfully registered");
+            setTimeout(() => {
+              history.push("/login");
+            }, 1000);
           }
         })
         .catch((error) => {
@@ -124,6 +130,7 @@ const Register = () => {
                   <b>Username</b>
                 </label>
                 <input
+                  autoComplete="on"
                   className={
                     isValidName ? "form-control" : "form-control is-invalid"
                   }
@@ -136,10 +143,12 @@ const Register = () => {
                     setUserName(e.target.value);
                   }}
                 />
+
                 <label htmlFor="email">
                   <b>Email</b>
                 </label>
                 <input
+                  autoComplete="on"
                   className={
                     isValidEmail ? "form-control" : "form-control is-invalid"
                   }
@@ -155,6 +164,7 @@ const Register = () => {
                   <b>Address</b>
                 </label>
                 <input
+                  autoComplete="on"
                   className={
                     isValidPhone ? "form-control" : "form-control is-invalid"
                   }
@@ -170,6 +180,7 @@ const Register = () => {
                   <b>Phone number</b>
                 </label>
                 <input
+                  autoComplete="on"
                   className={
                     isValidSex ? "form-control" : "form-control is-invalid"
                   }
@@ -185,6 +196,7 @@ const Register = () => {
                   <b>sex</b>
                 </label>
                 <input
+                  autoComplete="on"
                   className={
                     isValidAddress ? "form-control" : "form-control is-invalid"
                   }
@@ -200,6 +212,7 @@ const Register = () => {
                   <b>Password</b>
                 </label>
                 <input
+                  autoComplete="on"
                   className={
                     isValidPassword ? "form-control" : "form-control is-invalid"
                   }
@@ -215,6 +228,7 @@ const Register = () => {
                   <b>Confirm Password</b>
                 </label>
                 <input
+                  autoComplete="on"
                   className={
                     isValidConfirmPassword
                       ? "form-control"

@@ -23,8 +23,8 @@ const Nav = () => {
           <div className="collapse navbar-collapse" id="navbar">
             <ul className="navbar-nav me-auto">
               <li className="nav-item">
-                <NavLink className="nav-link" to="/news">
-                  News
+                <NavLink className="nav-link" to="/users">
+                  Users
                 </NavLink>
               </li>
               <li className="nav-item">
