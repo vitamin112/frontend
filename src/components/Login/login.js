@@ -1,7 +1,7 @@
-import axios from "axios";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
+import { login as LoginService } from "../../service/userService";
 import "./login.scss";
 
 const Login = () => {
@@ -44,15 +44,17 @@ const Login = () => {
     if (checkFields(newState) === false) {
       toast.warning("Your need to fill all fields");
     } else {
-      axios
-        .post("http://localhost:8080/api/login", {
-          key,
-          password,
-        })
+      LoginService({ key, password })
         .then((res) => {
           if (res.status === 200 && res.data.code === 1) {
             toast.success(res.data.message);
             setTimeout(() => {
+              // Lấy token
+              const token = res.data.data.jwtToken;
+
+              const expirationTime = new Date().getTime() + 6000000;
+              const expirationDate = new Date(expirationTime);
+              document.cookie = `access_token=${token}; expires=${expirationDate.toUTCString()}; path=/`;
               history.push("/");
             }, 1000);
           } else {
@@ -72,6 +74,7 @@ const Login = () => {
         <div className="row justify-content-center align-items-stretch align-items-center g-2">
           <div className="col-12 col-sm-6 d-none d-sm-block bg-secondary">
             <h2 className="text-center pt-auto"> Welcome to my website</h2>
+            new@gmail.com
           </div>
           <div className="col-12 col-sm-6 p-2 rounded bg-light">
             <form action="/login" method="post">

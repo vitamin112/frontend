@@ -3,7 +3,8 @@ import Nav from "./components/Navigation/Nav";
 import Login from "./components/Login/login";
 import Register from "./components/Register/register";
 import { ToastContainer } from "react-toastify";
-import UserList from "./components/ManageUser/User";
+import UserList from "./components/ManageUser/user";
+import CreateUser from "./components/pages/user/create/create";
 import "./App.scss";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -23,7 +24,12 @@ const App = () => {
         <Route path="/register">
           <Register />
         </Route>
-        <Route path="/">Home</Route>
+        <Route path="/" exact>
+          Home
+        </Route>
+        <Route path="/user/create" exact>
+          <CreateUser />
+        </Route>
         <Route path="*">nothing</Route>
       </Switch>
       <ToastContainer

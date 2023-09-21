@@ -1,21 +1,30 @@
 import ReactPaginate from "react-paginate";
 import React, { useEffect, useState } from "react";
 import { getData } from "../../service/userService";
+import { toast } from "react-toastify";
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
 const UserList = (props) => {
   const [listUser, setListUser] = useState([]);
   const [currentPage, setICurrentPage] = useState(1);
   const [itemLimit, setItemLimit] = useState(2);
-  const [totalPages, setTotalPages] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
 
   // call api
   const fetchData = async (page) => {
-    let res = await getData(page ? page : currentPage, itemLimit);
+    try {
+      let res = await getData(page ? page : currentPage, itemLimit);
 
-    if (res && res.data && res.data.Code === 1) {
-      console.log(res);
-      setListUser(res.data.Data.ListUsers);
-      setTotalPages(res.data.Data.totalPages);
+      if (res && res.data && res.data.Code === 1) {
+        setListUser(res.data.Data.ListUsers);
+        setTotalPages(res.data.Data.totalPages);
+      }
+      if (res.data.Code !== 1) {
+        toast.error(res.data.Message);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message);
     }
   };
 
@@ -31,28 +40,40 @@ const UserList = (props) => {
 
   return (
     <div className="table-container">
-      <div className="container mt-5">
+      <div className="mt-2 container">
+        <Link className="btn btn-info" to="user/create">
+          Create
+        </Link>
+      </div>
+      <div className="container mt-2">
         <table className="table table-hover ">
           <thead>
             <tr>
               <th scope="col">#</th>
-              <th scope="col">First</th>
-              <th scope="col">Last</th>
-              <th scope="col">Handle</th>
+              <th scope="col">userName</th>
+              <th scope="col">phone</th>
+              <th scope="col">email</th>
+              <th scope="col">sex</th>
             </tr>
           </thead>
           <tbody>
-            {listUser &&
+            {listUser.length > 0 ? (
               listUser.map((user, index) => {
                 return (
                   <tr key={"user-" + index}>
+                    <td>{itemLimit * (currentPage - 1) + index + 1}</td>
                     <td>{user.userName}</td>
                     <td>{user.phone}</td>
                     <td>{user.email}</td>
                     <td>{user.sex}</td>
                   </tr>
                 );
-              })}
+              })
+            ) : (
+              <tr>
+                <th>Nothing here!</th>
+              </tr>
+            )}
           </tbody>
         </table>
         <div className="table-footer">
