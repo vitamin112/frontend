@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import { toast } from "react-toastify";
-import { getData } from "../../service/userService";
+import { getData } from "../../../service/userService";
 
-const UserList = (props) => {
-  const [listUser, setListUser] = useState([]);
+const Posts = (props) => {
+  const [listPost, setListPost] = useState([]);
   const [currentPage, setICurrentPage] = useState(1);
   const [itemLimit, setItemLimit] = useState(2);
   const [totalPages, setTotalPages] = useState(0);
@@ -15,10 +15,11 @@ const UserList = (props) => {
     try {
       let res = await getData(page ? page : currentPage, itemLimit);
       console.log(res);
-      
-      if (res && res.data && res.data.Code === 1) {
-        setListUser(res.data.Data.ListUsers);
-        setTotalPages(res.data.Data.totalPages);
+      console.log(res.data.data.posts);
+
+      if (res && res.data && res.data.code === 1) {
+        setListPost(res.data.data.posts);
+        setTotalPages(0);
       }
       if (res.data.Code !== 1) {
         toast.error(res.data.Message);
@@ -51,22 +52,27 @@ const UserList = (props) => {
           <thead>
             <tr>
               <th scope="col">#</th>
-              <th scope="col">userName</th>
-              <th scope="col">phone</th>
-              <th scope="col">email</th>
-              <th scope="col">sex</th>
+              <th scope="col">Title</th>
+              <th scope="col">Slug</th>
+              <th scope="col">Content</th>
+              <th scope="col">View</th>
             </tr>
           </thead>
           <tbody>
-            {listUser.length > 0 ? (
-              listUser.map((user, index) => {
+            {listPost.length > 0 ? (
+              listPost.map((post, index) => {
                 return (
                   <tr key={"user-" + index}>
                     <td>{itemLimit * (currentPage - 1) + index + 1}</td>
-                    <td>{user.userName}</td>
-                    <td>{user.phone}</td>
-                    <td>{user.email}</td>
-                    <td>{user.sex}</td>
+                    <td>{post.title}</td>
+                    <td>{post.slug}</td>
+                    <td
+                      class="d-inline-block text-truncate"
+                      style={{ maxWidth: "250px" }}
+                    >
+                      {post.content}
+                    </td>
+                    <td>{post.view}</td>
                   </tr>
                 );
               })
@@ -105,4 +111,4 @@ const UserList = (props) => {
     </div>
   );
 };
-export default UserList;
+export default Posts;

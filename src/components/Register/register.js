@@ -1,7 +1,7 @@
-import { useState } from "react";
-import { toast } from "react-toastify";
-import { useHistory } from "react-router-dom";
 import axios from "axios";
+import { useState } from "react";
+import { useHistory } from "react-router-dom";
+import { toast } from "react-toastify";
 import "./register.scss";
 
 const Register = () => {
@@ -91,7 +91,7 @@ const Register = () => {
     e.preventDefault();
     if (isValidate()) {
       axios
-        .post("http://localhost:8080/api/register", {
+        .post("http://localhost:8080/api/v1/register", {
           userName,
           email,
           phone,

@@ -1,12 +1,13 @@
 import { Route, Switch } from "react-router-dom";
-import Nav from "./components/Navigation/Nav";
-import Login from "./components/Login/login";
-import Register from "./components/Register/register";
 import { ToastContainer } from "react-toastify";
-import UserList from "./components/ManageUser/user";
-import CreateUser from "./components/pages/user/create/create";
-import "./App.scss";
 import "react-toastify/dist/ReactToastify.css";
+import "./App.scss";
+import Login from "./components/Login/login";
+import UserList from "./components/ManageUser/user";
+import Nav from "./components/Navigation/Nav";
+import Register from "./components/Register/register";
+import Posts from "./components/pages/post";
+import CreateUser from "./components/pages/user/create/create";
 
 const App = () => {
   return (
@@ -16,7 +17,9 @@ const App = () => {
         <Route path="/users">
           <UserList />
         </Route>
-        <Route path="/about">About</Route>
+        <Route path="/posts">
+          <Posts />
+        </Route>
         <Route path="/contact">contact</Route>
         <Route path="/login">
           <Login />

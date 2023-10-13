@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
+import { toast } from "react-toastify";
 import { login as LoginService } from "../../service/userService";
 import "./login.scss";
 
 const Login = () => {
-  const [key, setkey] = useState("");
+  const [key, setKey] = useState("");
   const [password, setPassword] = useState("");
 
   const [checkObject, setCheckObject] = useState({
@@ -48,22 +48,15 @@ const Login = () => {
         .then((res) => {
           if (res.status === 200 && res.data.code === 1) {
             toast.success(res.data.message);
-            setTimeout(() => {
-              // Lấy token
-              const token = res.data.data.jwtToken;
 
-              const expirationTime = new Date().getTime() + 6000000;
-              const expirationDate = new Date(expirationTime);
-              document.cookie = `access_token=${token}; expires=${expirationDate.toUTCString()}; path=/`;
-              history.push("/");
-            }, 1000);
+            history.push("/");
           } else {
             toast.error(res.data.message);
           }
         })
         .catch((error) => {
-          toast.error(error.message);
           console.log(error);
+          toast.error(error.message);
         });
     }
   };
@@ -93,7 +86,7 @@ const Login = () => {
                   name="uname"
                   id="uname"
                   value={key}
-                  onChange={(e) => setkey(e.target.value)}
+                  onChange={(e) => setKey(e.target.value)}
                   required
                   autoComplete="on"
                 />
