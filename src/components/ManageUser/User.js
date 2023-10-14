@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import { toast } from "react-toastify";
-import { getData } from "../../service/userService";
+import { getUser } from "../../service/userService";
 
 const UserList = (props) => {
   const [listUser, setListUser] = useState([]);
@@ -13,15 +13,12 @@ const UserList = (props) => {
   // call api
   const fetchData = async (page) => {
     try {
-      let res = await getData(page ? page : currentPage, itemLimit);
-      console.log(res);
-      
-      if (res && res.data && res.data.Code === 1) {
-        setListUser(res.data.Data.ListUsers);
-        setTotalPages(res.data.Data.totalPages);
-      }
-      if (res.data.Code !== 1) {
-        toast.error(res.data.Message);
+      let res = await getUser(page ? page : currentPage, itemLimit);
+      if (res && res.data && res.data.code === 1) {
+        setListUser(res.data.data.userList);
+        setTotalPages(res.data.data.totalPages);
+      } else {
+        toast.error(res.data.message);
       }
     } catch (error) {
       console.log(error);
@@ -55,6 +52,7 @@ const UserList = (props) => {
               <th scope="col">phone</th>
               <th scope="col">email</th>
               <th scope="col">sex</th>
+              <th scope="col">group</th>
             </tr>
           </thead>
           <tbody>
@@ -67,6 +65,7 @@ const UserList = (props) => {
                     <td>{user.phone}</td>
                     <td>{user.email}</td>
                     <td>{user.sex}</td>
+                    <td>{user.groupId}</td>
                   </tr>
                 );
               })

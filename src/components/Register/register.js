@@ -136,7 +136,7 @@ const Register = () => {
                   }
                   type="text"
                   placeholder="Enter Username"
-                  name="uname"
+                  name="userName"
                   id="uname"
                   value={userName}
                   onChange={(e) => {

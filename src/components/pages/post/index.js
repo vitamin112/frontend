@@ -9,20 +9,17 @@ const Posts = (props) => {
   const [currentPage, setICurrentPage] = useState(1);
   const [itemLimit, setItemLimit] = useState(2);
   const [totalPages, setTotalPages] = useState(0);
-
   // call api
   const fetchData = async (page) => {
     try {
       let res = await getData(page ? page : currentPage, itemLimit);
-      console.log(res);
-      console.log(res.data.data.posts);
 
       if (res && res.data && res.data.code === 1) {
         setListPost(res.data.data.posts);
         setTotalPages(0);
       }
-      if (res.data.Code !== 1) {
-        toast.error(res.data.Message);
+      if (res.data.code !== 1) {
+        toast.error(res.data.message);
       }
     } catch (error) {
       console.log(error);
@@ -67,7 +64,7 @@ const Posts = (props) => {
                     <td>{post.title}</td>
                     <td>{post.slug}</td>
                     <td
-                      class="d-inline-block text-truncate"
+                      className="d-inline-block text-truncate"
                       style={{ maxWidth: "250px" }}
                     >
                       {post.content}
