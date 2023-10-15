@@ -61,43 +61,90 @@ const Nav = () => {
               </li>
             </ul>
             {isLoggedIn ? (
-              <div className="dropdown">
-                <button
-                  className="btn btn-secondary dropdown-toggle"
-                  type="button"
-                  id="userSettings"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  <span className="fw-bolder text-capitalize">
-                    {user.group}:{" "}
-                  </span>
-                  {user.userName}
-                </button>
-                <ul className="dropdown-menu" aria-labelledby="userSettings">
-                  <li>
-                    <NavLink className="dropdown-item" to="/profile">
-                      Action
-                    </NavLink>
-                  </li>
-                  <li>
-                    <NavLink className="dropdown-item" to="/s">
-                      Profile
-                    </NavLink>
-                  </li>
-                  <li>
-                    <hr className="dropdown-divider" />
-                  </li>
-                  <li>
-                    <button
-                      onClick={() => logOut()}
-                      className=" btn-secondary dropdown-item border-0"
-                    >
-                      Log out
-                    </button>
-                  </li>
-                </ul>
-              </div>
+              <>
+                <div class="flex-shrink-0 dropdown">
+                  <a
+                    href="#"
+                    class="d-block link-dark text-decoration-none dropdown-toggle"
+                    id="dropdownUser2"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    <img
+                      src="https://via.placeholder.com/28?text=!"
+                      alt="user"
+                      width="32"
+                      height="32"
+                      class="rounded-circle"
+                    />
+                  </a>
+                  <ul
+                    class="dropdown-menu dropdown-menu-end shadow"
+                    aria-labelledby="dropdownUser2"
+                  >
+                    <li>
+                      <a class="dropdown-item" href="#">
+                        New project...
+                      </a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="#">
+                        Settings
+                      </a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="#">
+                        Profile
+                      </a>
+                    </li>
+                    <li>
+                      <hr class="dropdown-divider" />
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="#">
+                        Sign out
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+                <div className="dropdown">
+                  <button
+                    className="btn btn-secondary dropdown-toggle"
+                    type="button"
+                    id="userSettings"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    <span className="fw-bolder text-capitalize">
+                      {user.group}:{" "}
+                    </span>
+                    {user.userName}
+                  </button>
+                  <ul className="dropdown-menu" aria-labelledby="userSettings">
+                    <li>
+                      <NavLink className="dropdown-item" to="/profile">
+                        Action
+                      </NavLink>
+                    </li>
+                    <li>
+                      <NavLink className="dropdown-item" to="/s">
+                        Profile
+                      </NavLink>
+                    </li>
+                    <li>
+                      <hr className="dropdown-divider" />
+                    </li>
+                    <li>
+                      <button
+                        onClick={() => logOut()}
+                        className=" btn-secondary dropdown-item border-0"
+                      >
+                        Log out
+                      </button>
+                    </li>
+                  </ul>
+                </div>
+              </>
             ) : (
               <ul className="nav navbar-nav navbar-right">
                 <li>

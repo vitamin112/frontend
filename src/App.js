@@ -6,15 +6,12 @@ import Login from "./components/Login/login";
 import UserList from "./components/ManageUser/user";
 import Nav from "./components/Navigation/Nav";
 import Register from "./components/Register/register";
+import Sidebar from "./components/pages/home";
 import Posts from "./components/pages/post";
 import CreateUser from "./components/pages/user/create/create";
 import { UserProvider } from "./service/authContext";
 
 const App = () => {
-  // const [userToken, setUserToken] = useState({
-  //   token: localStorage.getItem("access_token"),
-  // });
-
   return (
     <UserProvider>
       <div>
@@ -34,7 +31,7 @@ const App = () => {
             <Register />
           </Route>
           <Route path="/" exact>
-            Home
+            <Sidebar />
           </Route>
           <Route path="/user/create" exact>
             <CreateUser />
