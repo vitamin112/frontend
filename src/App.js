@@ -4,18 +4,19 @@ import "react-toastify/dist/ReactToastify.css";
 import "./App.scss";
 import Login from "./components/Login/login";
 import UserList from "./components/ManageUser/user";
-import Nav from "./components/Navigation/Nav";
 import Register from "./components/Register/register";
-import Sidebar from "./components/pages/home";
+import SideBar from "./components/SideBar/SideBar";
+import Home from "./components/pages/home";
 import Posts from "./components/pages/post";
 import CreateUser from "./components/pages/user/create/create";
+import Footer from "./components/partials/footer/footer";
 import { UserProvider } from "./service/authContext";
 
 const App = () => {
   return (
     <UserProvider>
       <div>
-        <Nav />
+        {/* <Nav /> */}
         <Switch>
           <Route path="/users">
             <UserList />
@@ -23,7 +24,11 @@ const App = () => {
           <Route path="/posts">
             <Posts />
           </Route>
-          <Route path="/contact">contact</Route>
+          <Route path="/sideBar">
+            <SideBar>
+              <Posts />
+            </SideBar>
+          </Route>
           <Route path="/login">
             <Login />
           </Route>
@@ -31,7 +36,7 @@ const App = () => {
             <Register />
           </Route>
           <Route path="/" exact>
-            <Sidebar />
+            <Home />
           </Route>
           <Route path="/user/create" exact>
             <CreateUser />
@@ -51,6 +56,7 @@ const App = () => {
           theme="light"
         />
       </div>
+      <Footer />
     </UserProvider>
   );
 };

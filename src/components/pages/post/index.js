@@ -39,12 +39,12 @@ const Posts = (props) => {
 
   return (
     <div className="table-container">
-      <div className="mt-2 container">
+      <div className="mt">
         <Link className="btn btn-info" to="user/create">
           Create
         </Link>
       </div>
-      <div className="container mt-2">
+      <div className=" mt-2">
         <table className="table table-hover ">
           <thead>
             <tr>

@@ -1,4 +1,4 @@
-const Sidebar = () => {
+const Home = () => {
   return (
     <>
       <header class="py-3 mb-4 border-bottom shadow">
@@ -123,4 +123,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar;
+export default Home;

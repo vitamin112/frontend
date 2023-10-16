@@ -45,8 +45,8 @@ const Nav = () => {
                 </NavLink>
               </li>
               <li className="nav-item">
-                <NavLink className="nav-link" to="/contact">
-                  Contact
+                <NavLink className="nav-link" to="/sideBar">
+                  sideBar
                 </NavLink>
               </li>
               <li className="nav-item">
