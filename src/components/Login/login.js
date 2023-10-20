@@ -102,10 +102,15 @@ const Login = () => {
                   required
                   autoComplete="on"
                 />
+                <div className="w-100 d-flex justify-content-center">
+                  <label htmlFor="psw ">
+                    <b>Password</b>
+                  </label>
+                  <a className="ms-auto " href="/forgot-password">
+                    Forgot password?
+                  </a>
+                </div>
 
-                <label htmlFor="psw">
-                  <b>Password</b>
-                </label>
                 <input
                   className={
                     checkObject.isValidPassword
@@ -131,12 +136,9 @@ const Login = () => {
                 </button>
               </div>
               <div className="">
-                <button type="button" className="cancelbtn">
-                  Cancel
-                </button>
-                <span className="psw">
-                  You don't have a account? <a href="/register"> Register</a>
-                </span>
+                <a href="/register" className="btn my-2 p-2 w-100 btn-primary">
+                  Register
+                </a>
               </div>
             </form>
           </div>

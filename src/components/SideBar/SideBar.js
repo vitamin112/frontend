@@ -56,14 +56,14 @@ const SideBar = ({ children }) => {
           placeholder="Search"
           aria-label="Search"
         />
-        <div className="navbar-nav">
-          <div className="nav-item text-nowrap">
-            <a className="nav-link px-3" href="/sideBar">
+        <div className="">
+          <div className="">
+            <div className=" px-3 d-none d-md-block">
               {isLoggedIn ? (
                 <>
                   <div className="dropdown">
                     <button
-                      className="btn btn-secondary dropdown-toggle"
+                      className="btn text-capitalize text-white border-0 dropdown-toggle"
                       type="button"
                       id="userSettings"
                       data-bs-toggle="dropdown"
@@ -103,11 +103,14 @@ const SideBar = ({ children }) => {
                   </div>
                 </>
               ) : (
-                <Link to="/login" className="btn btn-primary">
+                <Link
+                  to="/login"
+                  className="text-decoration-none btn border-0 text-white"
+                >
                   Login
                 </Link>
               )}
-            </a>
+            </div>
           </div>
         </div>
       </header>

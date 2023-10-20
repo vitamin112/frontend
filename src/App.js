@@ -6,6 +6,7 @@ import Login from "./components/Login/login";
 import UserList from "./components/ManageUser/user";
 import Register from "./components/Register/register";
 import SideBar from "./components/SideBar/SideBar";
+import ForgotPassword from "./components/forgotPassword/forgotPassword";
 import Home from "./components/pages/home";
 import Posts from "./components/pages/post";
 import CreateUser from "./components/pages/user/create/create";
@@ -34,6 +35,9 @@ const App = () => {
           </Route>
           <Route path="/register">
             <Register />
+          </Route>
+          <Route path="/forgot-password">
+            <ForgotPassword />
           </Route>
           <Route path="/" exact>
             <Home />
