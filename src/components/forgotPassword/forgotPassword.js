@@ -1,15 +1,90 @@
 import { useState } from "react";
-import { resetPassword } from "../../service/userService";
+import { useHistory } from "react-router-dom";
+import { toast } from "react-toastify";
+import { generateResetCode, resetPassword } from "../../service/userService";
 import "./forgotPassword.scss";
 
 const ForgotPassword = () => {
+  let history = useHistory();
   const [key, setKey] = useState("");
+  const [code, setCode] = useState("");
+  const [newPass, setNewPass] = useState("");
+  const [confirmPass, setConfirmPass] = useState("");
 
-  function handleForgotPassword(e) {
+  const [isValidKey, setIsValidKey] = useState(true);
+  const [isValidCode, setIsValidCode] = useState(true);
+  const [isValidNewPass, setIsValidNewPass] = useState(true);
+  const [isValidConfirmPass, setIsValidConfirmPass] = useState(true);
+
+  function getResetCode(e) {
     e.preventDefault();
-    resetPassword().then((res) => {
-      console.log(res);
-    });
+    generateResetCode(key)
+      .then((res) => {
+        if (res.status === 200 && res.data.code === 1) {
+          toast.success(res.data.message);
+        } else {
+          toast.error(res.data.message);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error(error.message);
+      });
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+
+    //check input
+    if (key) {
+      setIsValidKey(true);
+    } else {
+      setIsValidKey(false);
+    }
+    if (code) {
+      setIsValidCode(true);
+    } else {
+      setIsValidCode(false);
+    }
+    if (newPass) {
+      setIsValidNewPass(true);
+    } else {
+      setIsValidNewPass(false);
+    }
+    if (confirmPass) {
+      if (confirmPass === newPass) {
+        setIsValidConfirmPass(true);
+      } else {
+        toast.warning("new pass is not match!");
+      }
+    } else {
+      setIsValidConfirmPass(false);
+    }
+
+    if (
+      isValidCode &&
+      isValidConfirmPass &&
+      isValidKey &&
+      isValidNewPass &&
+      code &&
+      key &&
+      newPass &&
+      confirmPass
+    ) {
+      resetPassword(key, code, newPass)
+        .then((res) => {
+          if (res.status === 200 && res.data.code === 1) {
+            history.push("/login");
+            toast.success(res.data.message);
+          } else {
+            toast.error(res.data.message);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          toast.error(error.message);
+        });
+    }
   }
 
   return (
@@ -21,7 +96,9 @@ const ForgotPassword = () => {
               <b>Username</b>
             </label>
             <input
-              className={true ? "form-control" : "form-control is-invalid"}
+              className={
+                isValidKey ? "form-control" : "form-control is-invalid"
+              }
               type="text"
               placeholder="Enter Username"
               name="key"
@@ -31,13 +108,70 @@ const ForgotPassword = () => {
               required
               autoComplete="on"
             />
+            <div className="input-group mb-3">
+              <button
+                type="button"
+                className="btn btn-info"
+                onClick={(e) => getResetCode(e)}
+              >
+                Send code
+              </button>
+              <span className="input-group-text">@code: </span>
+              <input
+                className={
+                  isValidCode ? "form-control" : "form-control is-invalid"
+                }
+                type="text"
+                placeholder="Enter code..."
+                name="code"
+                id="code"
+                value={code}
+                onChange={(e) => setCode(e.target.value)}
+                required
+                autoComplete="on"
+              />
+            </div>
+
+            <hr />
+            <label htmlFor="newPass">
+              <b>newPass</b>
+            </label>
+            <input
+              className={
+                isValidNewPass ? "form-control" : "form-control is-invalid"
+              }
+              type="text"
+              placeholder="Enter newPass"
+              name="newPass"
+              id="newPass"
+              value={newPass}
+              onChange={(e) => setNewPass(e.target.value)}
+              required
+              autoComplete="on"
+            />
+            <label htmlFor="confirmPass">
+              <b>confirmPass</b>
+            </label>
+            <input
+              className={
+                isValidConfirmPass ? "form-control" : "form-control is-invalid"
+              }
+              type="text"
+              placeholder="Enter confirmPass"
+              name="confirmPass"
+              id="confirmPass"
+              value={confirmPass}
+              onChange={(e) => setConfirmPass(e.target.value)}
+              required
+              autoComplete="on"
+            />
 
             <button
-              type="submit"
-              className="btn btn-info"
-              onClick={(e) => handleForgotPassword(e)}
+              type="button"
+              className="btn btn-success"
+              onClick={(e) => handleSubmit(e)}
             >
-              Send
+              Submit
             </button>
           </form>
         </div>

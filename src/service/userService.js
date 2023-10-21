@@ -22,8 +22,26 @@ const createUser = () => {
   return axios.post("http://localhost:8080", {});
 };
 
-const resetPassword = (key) => {
-  return axios.post("http://localhost:8080/api/v1/reset-password", { key });
+const resetPassword = (key, code, password) => {
+  return axios.post("http://localhost:8080/api/v1/reset-password", {
+    key,
+    code,
+    password,
+  });
 };
 
-export { createUser, getData, getUser, login, logout, resetPassword };
+const generateResetCode = (key) => {
+  return axios.post("http://localhost:8080/api/v1/generate-reset-code", {
+    key,
+  });
+};
+
+export {
+  createUser,
+  generateResetCode,
+  getData,
+  getUser,
+  login,
+  logout,
+  resetPassword,
+};
