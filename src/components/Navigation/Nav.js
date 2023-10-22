@@ -45,7 +45,7 @@ const Nav = () => {
                 </NavLink>
               </li>
               <li className="nav-item">
-                <NavLink className="nav-link" to="/sideBar">
+                <NavLink className="nav-link" to="/">
                   sideBar
                 </NavLink>
               </li>
@@ -127,7 +127,7 @@ const Nav = () => {
                       </NavLink>
                     </li>
                     <li>
-                      <NavLink className="dropdown-item" to="/s">
+                      <NavLink className="dropdown-item" to="/profile">
                         Profile
                       </NavLink>
                     </li>

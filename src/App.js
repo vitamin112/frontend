@@ -2,6 +2,7 @@ import { Route, Switch } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.scss";
+import Nav from "./components/Navigation/Nav";
 import SideBar from "./components/layouts/SideBar/SideBar";
 import Login from "./components/pages/Login/login";
 import Register from "./components/pages/Register/register";
@@ -9,6 +10,7 @@ import ForgotPassword from "./components/pages/forgotPassword/forgotPassword";
 import Home from "./components/pages/home";
 import NotFound from "./components/pages/notFound/notFound";
 import Posts from "./components/pages/post";
+import Profile from "./components/pages/profile/profile";
 import CreateUser from "./components/pages/user/create/create";
 import UserList from "./components/pages/user/user";
 import Footer from "./components/partials/footer/footer";
@@ -37,6 +39,11 @@ const App = () => {
 
           <Route path="/register">
             <Register />
+          </Route>
+
+          <Route path="/profile">
+            <Nav />
+            <Profile />
           </Route>
 
           <Route path="/forgot-password">

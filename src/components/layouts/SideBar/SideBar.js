@@ -38,7 +38,7 @@ const SideBar = ({ children }) => {
   return (
     <>
       <header className="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-        <a className="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="/sideBar">
+        <a className="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="/">
           AHA<span className="text-info fw-bolder">BRA</span>
         </a>
         <button
@@ -90,7 +90,7 @@ const SideBar = ({ children }) => {
                         </NavLink>
                       </li>
                       <li>
-                        <NavLink className="dropdown-item" to="/s">
+                        <NavLink className="dropdown-item" to="/profile">
                           Profile
                         </NavLink>
                       </li>
@@ -175,11 +175,7 @@ const SideBar = ({ children }) => {
               </div>
               <ul className="nav flex-column">
                 <li className="nav-item">
-                  <a
-                    className="nav-link active"
-                    aria-current="page"
-                    href="/sideBar"
-                  >
+                  <a className="nav-link active" aria-current="page" href="/">
                     <FontAwesomeIcon className="px-1" icon={faDashboard} />
                     Dashboard
                   </a>
@@ -203,13 +199,13 @@ const SideBar = ({ children }) => {
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" href="/sideBar">
+                  <a className="nav-link" href="/">
                     <FontAwesomeIcon className="px-1" icon={faBarChart} />
                     Reports
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" href="/sideBar">
+                  <a className="nav-link" href="/">
                     <FontAwesomeIcon className="px-1" icon={faLayerGroup} />
                     Integrations
                   </a>
@@ -220,7 +216,7 @@ const SideBar = ({ children }) => {
                 <span>Saved reports</span>
                 <a
                   className="link-secondary"
-                  href="/sideBar"
+                  href="/"
                   aria-label="Add a new report"
                 >
                   <FontAwesomeIcon className="px-1" icon={faPlusCircle} />
@@ -228,25 +224,25 @@ const SideBar = ({ children }) => {
               </h6>
               <ul className="nav flex-column mb-2">
                 <li className="nav-item">
-                  <a className="nav-link" href="/sideBar">
+                  <a className="nav-link" href="/">
                     <FontAwesomeIcon className="px-1" icon={faFileText} />
                     Current month
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" href="/sideBar">
+                  <a className="nav-link" href="/">
                     <FontAwesomeIcon className="px-1" icon={faFileText} />
                     Last quarter
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" href="/sideBar">
+                  <a className="nav-link" href="/">
                     <FontAwesomeIcon className="px-1" icon={faFileText} />
                     Social engagement
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" href="/sideBar">
+                  <a className="nav-link" href="/">
                     <FontAwesomeIcon className="px-1" icon={faFileText} />
                     Year-end sale
                   </a>
