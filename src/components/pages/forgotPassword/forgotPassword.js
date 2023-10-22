@@ -1,12 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
-import { generateResetCode, resetPassword } from "../../service/userService";
+import { generateResetCode, resetPassword } from "../../../service/userService";
 import "./forgotPassword.scss";
 
 const ForgotPassword = () => {
   let history = useHistory();
   const [key, setKey] = useState("");
+  const [count, setCount] = useState();
   const [code, setCode] = useState("");
   const [newPass, setNewPass] = useState("");
   const [confirmPass, setConfirmPass] = useState("");
@@ -16,11 +17,23 @@ const ForgotPassword = () => {
   const [isValidNewPass, setIsValidNewPass] = useState(true);
   const [isValidConfirmPass, setIsValidConfirmPass] = useState(true);
 
+  useEffect(() => {
+    if (count > 0) {
+      const timer = setTimeout(() => {
+        setCount(count - 1);
+      }, 1000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [count]);
+
   function getResetCode(e) {
     e.preventDefault();
+
     generateResetCode(key)
       .then((res) => {
         if (res.status === 200 && res.data.code === 1) {
+          setCount(90);
           toast.success(res.data.message);
         } else {
           toast.error(res.data.message);
@@ -116,7 +129,9 @@ const ForgotPassword = () => {
               >
                 Send code
               </button>
-              <span className="input-group-text">@code: </span>
+              <span className="input-group-text text-danger">
+                {count <= 0 ? "!" : count}
+              </span>
               <input
                 className={
                   isValidCode ? "form-control" : "form-control is-invalid"

@@ -23,6 +23,11 @@ const Register = () => {
 
   let history = useHistory();
 
+  let token = localStorage.getItem("access_token");
+  if (token) {
+    history.push("/");
+  }
+
   const isValidate = () => {
     if (userName === "") {
       toast.warning("You need to enter a username!");

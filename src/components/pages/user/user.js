@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import { toast } from "react-toastify";
-import { getUser } from "../../service/userService";
+import { getUser } from "../../../service/userService";
 
 const UserList = (props) => {
   const [listUser, setListUser] = useState([]);

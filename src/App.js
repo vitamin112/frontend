@@ -2,14 +2,15 @@ import { Route, Switch } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.scss";
-import Login from "./components/Login/login";
-import UserList from "./components/ManageUser/user";
-import Register from "./components/Register/register";
-import SideBar from "./components/SideBar/SideBar";
-import ForgotPassword from "./components/forgotPassword/forgotPassword";
+import SideBar from "./components/layouts/SideBar/SideBar";
+import Login from "./components/pages/Login/login";
+import Register from "./components/pages/Register/register";
+import ForgotPassword from "./components/pages/forgotPassword/forgotPassword";
 import Home from "./components/pages/home";
+import NotFound from "./components/pages/notFound/notFound";
 import Posts from "./components/pages/post";
 import CreateUser from "./components/pages/user/create/create";
+import UserList from "./components/pages/user/user";
 import Footer from "./components/partials/footer/footer";
 import { UserProvider } from "./service/authContext";
 
@@ -17,36 +18,46 @@ const App = () => {
   return (
     <UserProvider>
       <div>
-        {/* <Nav /> */}
         <Switch>
           <Route path="/users">
-            <UserList />
+            <SideBar>
+              <UserList />
+            </SideBar>
           </Route>
+
           <Route path="/posts">
-            <Posts />
-          </Route>
-          <Route path="/sideBar">
             <SideBar>
               <Posts />
             </SideBar>
           </Route>
+
           <Route path="/login">
             <Login />
           </Route>
+
           <Route path="/register">
             <Register />
           </Route>
+
           <Route path="/forgot-password">
             <ForgotPassword />
           </Route>
+
           <Route path="/" exact>
-            <Home />
+            <SideBar>
+              <Home />
+            </SideBar>
           </Route>
+
           <Route path="/user/create" exact>
             <CreateUser />
           </Route>
-          <Route path="*">nothing</Route>
+
+          <Route path="*">
+            <NotFound />
+          </Route>
         </Switch>
+
         <ToastContainer
           position="top-right"
           autoClose={4000}

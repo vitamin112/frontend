@@ -1,12 +1,13 @@
 import {
   faBarChart,
   faDashboard,
-  faFile,
   faFileText,
   faLayerGroup,
+  faNewspaper,
   faPlusCircle,
-  faShoppingCart,
+  faTags,
   faUser,
+  faUserShield,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -15,8 +16,8 @@ import {
   useHistory,
 } from "react-router-dom/cjs/react-router-dom.min";
 import { toast } from "react-toastify";
-import { useUser } from "../../service/authContext";
-import { logout as userLogout } from "../../service/userService";
+import { useUser } from "../../../service/authContext";
+import { logout as userLogout } from "../../../service/userService";
 import "./SideBar.scss";
 
 const SideBar = ({ children }) => {
@@ -24,10 +25,11 @@ const SideBar = ({ children }) => {
   const history = useHistory();
 
   const user = isLoggedIn ? JSON.parse(isLoggedIn) : {};
+
   async function logOut() {
     localStorage.removeItem("access_token");
     let res = await userLogout();
-    console.log(await userLogout());
+
     toast.success(res.data.message);
     logout();
     history.push("/login");
@@ -37,7 +39,7 @@ const SideBar = ({ children }) => {
     <>
       <header className="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
         <a className="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="/sideBar">
-          Company name
+          AHA<span className="text-info fw-bolder">BRA</span>
         </a>
         <button
           className="navbar-toggler position-absolute d-md-none collapsed"
@@ -70,7 +72,11 @@ const SideBar = ({ children }) => {
                       aria-expanded="false"
                     >
                       <span className="fw-bolder text-capitalize">
-                        {user.group}:{" "}
+                        {user.group == "admin" ? (
+                          <FontAwesomeIcon icon={faUserShield} />
+                        ) : (
+                          <FontAwesomeIcon icon={faUser} />
+                        )}{" "}
                       </span>
                       {user.userName}
                     </button>
@@ -161,9 +167,9 @@ const SideBar = ({ children }) => {
                     <hr className="dropdown-divider" />
                   </li>
                   <li>
-                    <a className="dropdown-item" href="#">
+                    <button className="dropdown-item" onClick={() => logOut()}>
                       Sign out
-                    </a>
+                    </button>
                   </li>
                 </ul>
               </div>
@@ -179,21 +185,21 @@ const SideBar = ({ children }) => {
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" href="/sideBar">
-                    <FontAwesomeIcon className="px-1" icon={faFile} />
-                    Orders
+                  <a className="nav-link" href="/posts">
+                    <FontAwesomeIcon className="px-1" icon={faNewspaper} />
+                    Posts
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" href="/sideBar">
-                    <FontAwesomeIcon className="px-1" icon={faShoppingCart} />
-                    Products
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link" href="/sideBar">
+                  <a className="nav-link" href="/Users">
                     <FontAwesomeIcon className="px-1" icon={faUser} />
-                    Customers
+                    Users
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link" href="/Categories">
+                    <FontAwesomeIcon className="px-1" icon={faTags} />
+                    Categories
                   </a>
                 </li>
                 <li className="nav-item">

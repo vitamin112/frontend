@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useUser } from "../../service/authContext";
-import { login as LoginService } from "../../service/userService";
+import { useUser } from "../../../service/authContext";
+import { login as LoginService } from "../../../service/userService";
 import "./login.scss";
 
 const Login = () => {
@@ -14,7 +14,7 @@ const Login = () => {
 
   let token = localStorage.getItem("access_token");
   if (token) {
-    history.push("/posts");
+    history.push("/");
   }
 
   const [checkObject, setCheckObject] = useState({

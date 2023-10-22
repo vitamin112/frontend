@@ -13,7 +13,7 @@ const Nav = () => {
   async function logOut() {
     localStorage.removeItem("access_token");
     let res = await userLogout();
-    console.log(await userLogout());
+
     toast.success(res.data.message);
     logout();
     history.push("/login");
@@ -62,10 +62,10 @@ const Nav = () => {
             </ul>
             {isLoggedIn ? (
               <>
-                <div class="flex-shrink-0 dropdown">
+                <div className="flex-shrink-0 dropdown">
                   <a
                     href="#"
-                    class="d-block link-dark text-decoration-none dropdown-toggle"
+                    className="d-block link-dark text-decoration-none dropdown-toggle"
                     id="dropdownUser2"
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
@@ -75,33 +75,33 @@ const Nav = () => {
                       alt="user"
                       width="32"
                       height="32"
-                      class="rounded-circle"
+                      className="rounded-circle"
                     />
                   </a>
                   <ul
-                    class="dropdown-menu dropdown-menu-end shadow"
+                    className="dropdown-menu dropdown-menu-end shadow"
                     aria-labelledby="dropdownUser2"
                   >
                     <li>
-                      <a class="dropdown-item" href="#">
+                      <a className="dropdown-item" href="#">
                         New project...
                       </a>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="#">
+                      <a className="dropdown-item" href="#">
                         Settings
                       </a>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="#">
+                      <a className="dropdown-item" href="#">
                         Profile
                       </a>
                     </li>
                     <li>
-                      <hr class="dropdown-divider" />
+                      <hr className="dropdown-divider" />
                     </li>
                     <li>
-                      <a class="dropdown-item" href="#">
+                      <a className="dropdown-item" href="#">
                         Sign out
                       </a>
                     </li>
