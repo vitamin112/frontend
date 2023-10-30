@@ -4,7 +4,9 @@ import "react-toastify/dist/ReactToastify.css";
 import "./App.scss";
 import Nav from "./components/Navigation/Nav";
 import SideBar from "./components/layouts/SideBar/SideBar";
+import UserLayout from "./components/layouts/user/user";
 import Login from "./components/pages/Login/login";
+import PostDetail from "./components/pages/PostDetail/PostDetail";
 import Register from "./components/pages/Register/register";
 import ForgotPassword from "./components/pages/forgotPassword/forgotPassword";
 import Home from "./components/pages/home";
@@ -41,7 +43,7 @@ const App = () => {
             <Register />
           </Route>
 
-          <Route path="/profile">
+          <Route path="/profile/:id">
             <Nav />
             <Profile />
           </Route>
@@ -50,7 +52,7 @@ const App = () => {
             <ForgotPassword />
           </Route>
 
-          <Route path="/" exact>
+          <Route path="/admin" exact>
             <SideBar>
               <Home />
             </SideBar>
@@ -58,6 +60,16 @@ const App = () => {
 
           <Route path="/user/create" exact>
             <CreateUser />
+          </Route>
+
+          <Route path="/post/:id" exact>
+            <Nav />
+            <PostDetail />
+          </Route>
+
+          <Route path="/" exact>
+            <Nav />
+            <UserLayout />
           </Route>
 
           <Route path="*">

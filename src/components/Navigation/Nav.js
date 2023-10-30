@@ -7,7 +7,6 @@ import "./Nav.scss";
 const Nav = () => {
   const history = useHistory();
   const { isLoggedIn, logout } = useUser();
-
   const user = isLoggedIn ? JSON.parse(isLoggedIn) : {};
 
   async function logOut() {
@@ -127,7 +126,10 @@ const Nav = () => {
                       </NavLink>
                     </li>
                     <li>
-                      <NavLink className="dropdown-item" to="/profile">
+                      <NavLink
+                        className="dropdown-item"
+                        to={`/profile/${user.userID}`}
+                      >
                         Profile
                       </NavLink>
                     </li>

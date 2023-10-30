@@ -6,13 +6,14 @@
   user-select: none;
 }
 
+#search-button {
+  width: 60px;
+}
+
 @media (min-width: 768px) {
   .bd-placeholder-img-lg {
     font-size: 3.5rem;
   }
-}
-body {
-  font-size: 0.875rem;
 }
 
 .feather {
@@ -21,21 +22,13 @@ body {
   vertical-align: text-bottom;
 }
 
-/*
- * Sidebar
- */
-
 .sidebar {
   position: fixed;
   top: 0;
-  /* rtl:raw:
-  right: 0;
-  */
   bottom: 0;
-  /* rtl:remove */
   left: 0;
-  z-index: 100; /* Behind the navbar */
-  padding: 48px 0 0; /* Height of navbar */
+  z-index: 100;
+  padding: 48px 0 0;
   box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.1);
 }
 
@@ -77,10 +70,6 @@ body {
   font-size: 0.75rem;
   text-transform: uppercase;
 }
-
-/*
- * Navbar
- */
 
 .navbar-brand {
   padding-top: 0.75rem;

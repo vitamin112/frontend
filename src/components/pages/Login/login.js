@@ -14,6 +14,12 @@ const Login = () => {
 
   let token = localStorage.getItem("access_token");
   if (token) {
+    document.cookie = token;
+    const expirationDate = new Date();
+    expirationDate.setDate(expirationDate.getDate() + 1);
+
+    document.cookie = `access_token=${token}; expires=${expirationDate.toUTCString()};`;
+
     history.push("/");
   }
 

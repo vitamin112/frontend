@@ -1,6 +1,40 @@
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { getUserById } from "../../../service/userService";
 import "./profile.scss";
 
 const Profile = () => {
+  let { id } = useParams();
+
+  const [userData, setUserData] = useState({});
+  const [userName, setUserName] = useState(userData.userName);
+  const [userAddress, setUserAddress] = useState(userData.address);
+  const [email, setEmail] = useState(userData.email);
+  const [gender, setGender] = useState(userData.sex);
+  const [phone, setPhone] = useState(userData.phone);
+  const [dob, setDob] = useState(userData.dob);
+
+  const getData = async () => {
+    let res = await getUserById(id);
+
+    setUserData(res.data);
+    setUserName(res.data.userName);
+    setEmail(res.data.email);
+    setUserAddress(res.data.address);
+    setGender(res.data.sex);
+    setDob(res.data.dob);
+    setPhone(res.data.phone);
+  };
+
+  const handleUpdateProfile = (e) => {
+    e.preventDefault();
+    console.log("submit");
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
   return (
     <section className="container rounded bg-white mt-5 mb-5" id="profile">
       <div className="row">
@@ -18,25 +52,21 @@ const Profile = () => {
           </div>
         </div>
         <div className="col-md-5 border-right">
-          <div className="p-3 py-5">
+          <form action="/" className="p-3 py-5">
             <div className="d-flex justify-content-between align-items-center mb-3">
               <h4 className="text-right">Profile Settings</h4>
             </div>
             <div className="row mt-2">
-              <div className="col-md-6">
+              <div className="col-md-12">
                 <label className="labels">Name</label>
                 <input
                   type="text"
+                  value={userName ? userName : ""}
+                  onChange={(e) => {
+                    setUserName(e.target.value);
+                  }}
                   className="form-control"
                   placeholder="first name"
-                />
-              </div>
-              <div className="col-md-6">
-                <label className="labels">Surname</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="surname"
                 />
               </div>
             </div>
@@ -45,6 +75,10 @@ const Profile = () => {
                 <label className="labels">Mobile Number</label>
                 <input
                   type="text"
+                  value={phone ? phone : ""}
+                  onChange={(e) => {
+                    setPhone(e.target.value);
+                  }}
                   className="form-control"
                   placeholder="enter phone number"
                 />
@@ -54,60 +88,62 @@ const Profile = () => {
                 <label className="labels">Address </label>
                 <input
                   type="text"
+                  value={userAddress ? userAddress : ""}
+                  onChange={(e) => {
+                    setUserAddress(e.target.value);
+                  }}
                   className="form-control"
-                  placeholder="enter address line 2"
-                />
-              </div>
-
-              <div className="col-md-12">
-                <label className="labels">State</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="enter address line 2"
+                  placeholder="enter address "
                 />
               </div>
               <div className="col-md-12">
-                <label className="labels">Area</label>
+                <label className="labels">dob</label>
                 <input
-                  type="text"
+                  type="date"
+                  value={dob ? dob : ""}
+                  onChange={(e) => {
+                    setDob(e.target.value);
+                  }}
                   className="form-control"
-                  placeholder="enter address line 2"
+                  placeholder="enter dob"
                 />
               </div>
               <div className="col-md-12">
                 <label className="labels">Email </label>
                 <input
                   type="text"
+                  value={email ? email : ""}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                  }}
                   className="form-control"
                   placeholder="enter email "
                 />
               </div>
             </div>
             <div className="row mt-3">
-              <div className="col-md-6">
-                <label className="labels">Country</label>
+              <div className="col-md-12">
+                <label className="labels">Gender</label>
                 <input
                   type="text"
                   className="form-control"
+                  value={gender ? gender : ""}
+                  onChange={(e) => {
+                    setGender(e.target.value);
+                  }}
                   placeholder="country"
-                />
-              </div>
-              <div className="col-md-6">
-                <label className="labels">State/Region</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="state"
                 />
               </div>
             </div>
             <div className="mt-5 text-center">
-              <button className="btn btn-primary profile-button" type="button">
+              <button
+                className="btn btn-primary profile-button"
+                onClick={(e) => handleUpdateProfile(e)}
+              >
                 Save Profile
               </button>
             </div>
-          </div>
+          </form>
         </div>
         <div className="col-md-4">
           <div className="p-3 py-5">
@@ -122,6 +158,10 @@ const Profile = () => {
               <label className="labels">Experience in Designing</label>
               <input
                 type="text"
+                value={userName ? userName : ""}
+                onChange={(e) => {
+                  setUserName(e.target.value);
+                }}
                 className="form-control"
                 placeholder="experience"
               />
@@ -131,6 +171,10 @@ const Profile = () => {
               <label className="labels">Additional Details</label>
               <input
                 type="text"
+                value={userName ? userName : ""}
+                onChange={(e) => {
+                  setUserName(e.target.value);
+                }}
                 className="form-control"
                 placeholder="additional details"
               />

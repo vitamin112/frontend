@@ -14,11 +14,10 @@ const Posts = (props) => {
     try {
       let res = await getData(page ? page : currentPage, itemLimit);
 
-      if (res && res.data && res.data.code === 1) {
-        setListPost(res.data.data.posts);
+      if (res && res.data && res.code === 1) {
+        setListPost(res.data.posts);
         setTotalPages(0);
-      }
-      if (res.data.code !== 1) {
+      } else {
         toast.error(res.data.message);
       }
     } catch (error) {

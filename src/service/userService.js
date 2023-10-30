@@ -1,6 +1,7 @@
 import axios from "../config/axios";
-const getData = (page, limit) => {
-  return axios.get(`http://localhost:8080/api/v1/post`);
+const getData = async (page, limit) => {
+  let result = await axios.get(`http://localhost:8080/api/v1/post`);
+  return result.data;
 };
 
 const getUser = (page, limit) => {
@@ -36,11 +37,17 @@ const generateResetCode = (key) => {
   });
 };
 
+const getUserById = async (id) => {
+  let res = await axios.get(`http://localhost:8080/api/v1/user/${id}`);
+  return res.data;
+};
+
 export {
   createUser,
   generateResetCode,
   getData,
   getUser,
+  getUserById,
   login,
   logout,
   resetPassword,

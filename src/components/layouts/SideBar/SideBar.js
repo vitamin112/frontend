@@ -5,6 +5,7 @@ import {
   faLayerGroup,
   faNewspaper,
   faPlusCircle,
+  faSearch,
   faTags,
   faUser,
   faUserShield,
@@ -24,7 +25,12 @@ const SideBar = ({ children }) => {
   const { isLoggedIn, logout } = useUser();
   const history = useHistory();
 
-  const user = isLoggedIn ? JSON.parse(isLoggedIn) : {};
+  const user = isLoggedIn ? JSON.parse(isLoggedIn) : null;
+  if (!user) {
+    toast.warning("You need to login!");
+
+    history.push("/login");
+  }
 
   async function logOut() {
     localStorage.removeItem("access_token");
@@ -52,71 +58,77 @@ const SideBar = ({ children }) => {
         >
           <span className="navbar-toggler-icon"></span>
         </button>
-        <input
-          className="form-control form-control-dark w-100"
-          type="text"
-          placeholder="Search"
-          aria-label="Search"
-        />
+
+        <div className="input-group d-flex flex-nowrap">
+          <input
+            className="form-control form-control-dark w-100"
+            type="text"
+            placeholder="Search"
+            aria-label="Search"
+          />
+          <button
+            id="search-button"
+            type="button"
+            className="btn btn-secondary border-0 rounded-0"
+          >
+            <FontAwesomeIcon icon={faSearch} />
+          </button>
+        </div>
+
         <div className="">
-          <div className="">
-            <div className=" px-3 d-none d-md-block">
-              {isLoggedIn ? (
-                <>
-                  <div className="dropdown">
-                    <button
-                      className="btn text-capitalize text-white border-0 dropdown-toggle"
-                      type="button"
-                      id="userSettings"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                    >
-                      <span className="fw-bolder text-capitalize">
-                        {user.group == "admin" ? (
-                          <FontAwesomeIcon icon={faUserShield} />
-                        ) : (
-                          <FontAwesomeIcon icon={faUser} />
-                        )}{" "}
-                      </span>
-                      {user.userName}
-                    </button>
-                    <ul
-                      className="dropdown-menu"
-                      aria-labelledby="userSettings"
-                    >
-                      <li>
-                        <NavLink className="dropdown-item" to="/profile">
-                          Action
-                        </NavLink>
-                      </li>
-                      <li>
-                        <NavLink className="dropdown-item" to="/profile">
-                          Profile
-                        </NavLink>
-                      </li>
-                      <li>
-                        <hr className="dropdown-divider" />
-                      </li>
-                      <li>
-                        <button
-                          onClick={() => logOut()}
-                          className=" btn-secondary dropdown-item border-0"
-                        >
-                          Log out
-                        </button>
-                      </li>
-                    </ul>
-                  </div>
-                </>
-              ) : (
-                <Link
-                  to="/login"
-                  className="text-decoration-none btn border-0 text-white"
-                >
-                  Login
-                </Link>
-              )}
-            </div>
+          <div className=" px-3 d-none d-md-block">
+            {isLoggedIn ? (
+              <>
+                <div className="dropdown">
+                  <button
+                    className="btn text-capitalize text-white border-0 dropdown-toggle"
+                    type="button"
+                    id="userSettings"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    <span className="fw-bolder text-capitalize">
+                      {user.group == "admin" ? (
+                        <FontAwesomeIcon icon={faUserShield} />
+                      ) : (
+                        <FontAwesomeIcon icon={faUser} />
+                      )}{" "}
+                    </span>
+                    {user.userName}
+                  </button>
+                  <ul className="dropdown-menu" aria-labelledby="userSettings">
+                    <li>
+                      <NavLink className="dropdown-item" to="/profile">
+                        Action
+                      </NavLink>
+                    </li>
+                    <li>
+                      <NavLink className="dropdown-item" to="/profile">
+                        Profile
+                      </NavLink>
+                    </li>
+                    <li>
+                      <hr className="dropdown-divider" />
+                    </li>
+                    <li>
+                      <button
+                        onClick={() => logOut()}
+                        className=" btn-secondary dropdown-item border-0"
+                      >
+                        Log out
+                      </button>
+                    </li>
+                  </ul>
+                </div>
+              </>
+            ) : (
+              <Link
+                to="/login"
+                className="text-decoration-none btn border-0 text-white"
+              >
+                Login
+              </Link>
+            )}
           </div>
         </div>
       </header>
