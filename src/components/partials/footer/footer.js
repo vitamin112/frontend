@@ -1,7 +1,7 @@
 const Footer = () => {
   return (
     <footer>
-      <div className="text-center text-bg-secondary">hello every one</div>
+      <div className="text-center text-bg-secondary">@nguyenVanLoc</div>
     </footer>
   );
 };

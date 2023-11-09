@@ -42,7 +42,26 @@ const getUserById = async (id) => {
   return res.data;
 };
 
+const updateUser = async (id, rawData) => {
+  let res = await axios.put(`http://localhost:8080/api/v1/user/update/${id}`, {
+    rawData,
+  });
+  return res.data;
+};
+
+const changePass = async (id, oldPass, newPass) => {
+  let res = await axios.put(
+    `http://localhost:8080/api/v1/user/${id}/password`,
+    {
+      oldPass,
+      newPass,
+    }
+  );
+  return res.data;
+};
+
 export {
+  changePass,
   createUser,
   generateResetCode,
   getData,
@@ -51,4 +70,5 @@ export {
   login,
   logout,
   resetPassword,
+  updateUser,
 };

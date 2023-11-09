@@ -23,10 +23,11 @@ const Nav = () => {
       <nav className="navbar navbar-expand-md navbar-dark bg-dark">
         <div className="container-fluid">
           <a className="navbar-brand" href="/">
-            <strong>LOGO</strong>
+            AHA<span className="text-info fw-bolder">BRA</span>
           </a>
+
           <button
-            className="navbar-toggler"
+            className="navbar-toggler "
             type="button"
             data-bs-toggle="collapse"
             data-bs-target="#navbar"
@@ -36,7 +37,7 @@ const Nav = () => {
           >
             <span className="navbar-toggler-icon"></span>
           </button>
-          <div className="collapse navbar-collapse" id="navbar">
+          <div className="collapse navbar-collapse " id="navbar">
             <ul className="navbar-nav me-auto">
               <li className="nav-item">
                 <NavLink className="nav-link" to="/users">
@@ -44,8 +45,8 @@ const Nav = () => {
                 </NavLink>
               </li>
               <li className="nav-item">
-                <NavLink className="nav-link" to="/">
-                  sideBar
+                <NavLink className="nav-link" to="/categories">
+                  Categories
                 </NavLink>
               </li>
               <li className="nav-item">
@@ -63,9 +64,9 @@ const Nav = () => {
               <>
                 <div className="flex-shrink-0 dropdown">
                   <a
-                    href="#"
-                    className="d-block link-dark text-decoration-none dropdown-toggle"
-                    id="dropdownUser2"
+                    href={`/profile/${user.userID}`}
+                    className="d-block text-white text-decoration-none dropdown-toggle"
+                    id="userSetting"
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
                   >
@@ -75,54 +76,16 @@ const Nav = () => {
                       width="32"
                       height="32"
                       className="rounded-circle"
-                    />
+                    />{" "}
+                    {user.userName}
                   </a>
                   <ul
                     className="dropdown-menu dropdown-menu-end shadow"
-                    aria-labelledby="dropdownUser2"
+                    aria-labelledby="userSetting"
                   >
                     <li>
-                      <a className="dropdown-item" href="#">
-                        New project...
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="#">
+                      <NavLink className="dropdown-item" to="/new">
                         Settings
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="#">
-                        Profile
-                      </a>
-                    </li>
-                    <li>
-                      <hr className="dropdown-divider" />
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="#">
-                        Sign out
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-                <div className="dropdown">
-                  <button
-                    className="btn btn-secondary dropdown-toggle"
-                    type="button"
-                    id="userSettings"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    <span className="fw-bolder text-capitalize">
-                      {user.group}:{" "}
-                    </span>
-                    {user.userName}
-                  </button>
-                  <ul className="dropdown-menu" aria-labelledby="userSettings">
-                    <li>
-                      <NavLink className="dropdown-item" to="/profile">
-                        Action
                       </NavLink>
                     </li>
                     <li>

@@ -1,12 +1,12 @@
-import { faEye, faPen, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import { faTrashAlt, faTrashRestore } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
 import { toast } from "react-toastify";
-import { delPost } from "../../../service/postService";
+import { destroy, restore } from "../../../service/postService";
 import { getData } from "../../../service/userService";
 
-const Posts = (props) => {
+const Trash = (props) => {
   const [listPost, setListPost] = useState([]);
   const [currentPage, setICurrentPage] = useState(1);
   const [itemLimit, setItemLimit] = useState(2);
@@ -18,7 +18,7 @@ const Posts = (props) => {
       let res = await getData(page ? page : currentPage, itemLimit);
 
       if (res && res.data && res.code === 1) {
-        setListPost(res.data.posts);
+        setListPost(res.data.trash.data.rows);
         setTotalPages(0);
       } else {
         toast.error(res.data.message);
@@ -43,15 +43,28 @@ const Posts = (props) => {
   };
 
   const handleDelete = async (id) => {
-    let res = await delPost(id);
+    let res = await destroy(id);
 
     const updatedPosts = listPost.filter((post) => post.id !== id);
 
     setListPost(updatedPosts);
-    if (res.data.code == 1) {
-      toast.success(res.data.message);
+    if (res.code == 1) {
+      toast.success(res.message);
     } else {
-      toast.error(res.data.message);
+      toast.error(res.message);
+    }
+  };
+
+  const handleRestore = async (id) => {
+    let res = await restore(id);
+
+    const updatedPosts = listPost.filter((post) => post.id !== id);
+
+    setListPost(updatedPosts);
+    if (res.code == 1) {
+      toast.success(res.message);
+    } else {
+      toast.error(res.message);
     }
   };
 
@@ -85,20 +98,13 @@ const Posts = (props) => {
                     </td>
                     <td>{post.like}</td>
                     <td>
-                      <a
+                      <button
                         className="px-1 mx-1 btn"
-                        title="view"
-                        href={`/post/${post.id}`}
+                        title="restore"
+                        onClick={() => handleRestore(post.id)}
                       >
-                        <FontAwesomeIcon icon={faEye} />
-                      </a>
-                      <a
-                        className="px-1 mx-1 btn"
-                        title="edit"
-                        href={`/post/${post.id}`}
-                      >
-                        <FontAwesomeIcon icon={faPen} />
-                      </a>
+                        <FontAwesomeIcon icon={faTrashRestore} color="blue" />
+                      </button>
 
                       <button
                         type="button"
@@ -194,4 +200,5 @@ const Posts = (props) => {
     </div>
   );
 };
-export default Posts;
+
+export default Trash;

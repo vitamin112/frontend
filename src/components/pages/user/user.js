@@ -53,6 +53,7 @@ const UserList = (props) => {
               <th scope="col">email</th>
               <th scope="col">sex</th>
               <th scope="col">group</th>
+              <th scope="col">action</th>
             </tr>
           </thead>
           <tbody>
@@ -66,6 +67,14 @@ const UserList = (props) => {
                     <td>{user.email}</td>
                     <td>{user.sex}</td>
                     <td>{user.groupId}</td>
+                    <td>
+                      <a className="mx-1 px-1 btn" href={`/profile/${user.id}`}>
+                        Update
+                      </a>
+                      <a className="mx-1 px-1 btn" href="">
+                        Del
+                      </a>
+                    </td>
                   </tr>
                 );
               })

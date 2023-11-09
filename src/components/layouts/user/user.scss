@@ -1,7 +1,22 @@
 #user-layout {
   min-height: 100vh;
-  img {
-    height: 200px;
-    object-fit: cover;
+  .card {
+    &:hover {
+      transition: all 0.3s linear;
+      transform: scale(1.01);
+    }
+    img {
+      height: 200px;
+      object-fit: cover;
+    }
+    .card-text {
+      display: -webkit-box;
+      height: 3.6rem;
+      line-height: 1.2rem;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
   }
 }

@@ -83,12 +83,9 @@ const Login = () => {
     <div className="login-container">
       <div className="container py-5">
         <div className="row justify-content-center align-items-stretch align-items-center g-2">
-          <div className="col-12 col-sm-6 d-none d-sm-block bg-secondary">
-            <h2 className="text-center pt-auto"> Welcome to my website</h2>
-            user2@gmail.com
-          </div>
           <div className="col-12 col-sm-6 p-2 rounded bg-light">
             <form action="/login" method="post">
+              <h2 className="text-center pb-3">Login</h2>
               <div>
                 <label htmlFor="uname">
                   <b>Username</b>
@@ -135,7 +132,7 @@ const Login = () => {
 
                 <button
                   type="submit"
-                  className="btn btn-info"
+                  className="btn btn-info p-2"
                   onClick={(e) => handleLogin(e)}
                 >
                   Login

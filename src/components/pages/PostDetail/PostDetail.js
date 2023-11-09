@@ -1,27 +1,39 @@
 import {
   faCommentDots,
+  faPen,
   faReply,
   faShare,
   faThumbsUp,
   faTrash,
+  faTrashAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useUser } from "../../../service/authContext";
-import { comment, deleteCmt, getPost } from "../../../service/postService";
+import {
+  comment,
+  delPost,
+  deleteCmt,
+  getPost,
+  update,
+} from "../../../service/postService";
 import Loader from "../../loading/loading";
 import "./PostDetail.scss";
 
 const PostDetail = () => {
-  let { id } = useParams();
-  const [post, setPost] = useState();
-  const [author, setAuthor] = useState();
-  const [comments, setComments] = useState([]);
-  const [newComment, setNewComment] = useState("");
+  let history = useHistory();
 
-  const { isLoggedIn, logout } = useUser();
+  let { id } = useParams("");
+  const [post, setPost] = useState({});
+  const [author, setAuthor] = useState({});
+  const [postLike, setView] = useState(0);
+  const [comments, setComments] = useState([]);
+  const [newComment, setNewComment] = useState();
+  const [deleteItem, setDeleteItem] = useState({});
+
+  const { isLoggedIn } = useUser();
 
   const user = isLoggedIn ? JSON.parse(isLoggedIn) : {};
 
@@ -30,6 +42,7 @@ const PostDetail = () => {
 
     setAuthor(data.post.user);
     setPost(data.post);
+    setView(data.post.like);
     setComments(data.post.comments);
   };
 
@@ -77,18 +90,50 @@ const PostDetail = () => {
     }
   };
 
-  const handleDeleteCmt = async (e, cmtId) => {
+  const handleUpdate = async (e, postUpdated) => {
     e.preventDefault();
-    let res = await deleteCmt(id, cmtId);
+    let newData = postUpdated ? { ...postUpdated } : post;
 
-    if (res.data.code == 1) {
-      toast.success(res.data.message);
-      const updatedComments = comments.filter(
-        (comment) => comment.id !== cmtId
-      );
-      setComments(updatedComments);
+    let result = await update(id, newData);
+    if (result.code == 1) {
+      toast.success(result.message);
     } else {
-      toast.error(res.data.message);
+      toast.error(result.message);
+    }
+  };
+
+  const handleLike = async (e) => {
+    setView(postLike + 1);
+
+    let newData = { ...post, like: postLike + 1 };
+
+    handleUpdate(e, newData);
+  };
+
+  const handleDelete = async (e, delItem) => {
+    e.preventDefault();
+
+    let res;
+
+    if (delItem.type === "post") {
+      res = await delPost(id);
+
+      toast.success(res.message);
+
+      history.push("/");
+    } else {
+      res = await deleteCmt(id, delItem.id);
+
+      const updatedComments = comments.filter(
+        (comment) => comment.id !== delItem.id
+      );
+
+      setComments(updatedComments);
+      if (res.data.code == 1) {
+        toast.success(res.data.message);
+      } else {
+        toast.error(res.data.message);
+      }
     }
   };
 
@@ -111,20 +156,51 @@ const PostDetail = () => {
                     <div>
                       <h6 className="fw-bold text-primary mb-1">
                         {author?.userName}
+                        {" -  : "} {postLike}
                       </h6>
                       <p className="text-muted small mb-0">
-                        Shared publicly - {post.createdAt}
+                        Shared publicly - {timeAgo(post.createdAt)}
                       </p>
                     </div>
+                    {user.userID == author?.id || user.group === "admin" ? (
+                      <div className="ms-auto align-self-start">
+                        <button
+                          type="button"
+                          className="btn"
+                          data-bs-toggle="modal"
+                          data-bs-target="#updatePostModal"
+                          title="Update"
+                        >
+                          <FontAwesomeIcon icon={faPen} />
+                        </button>
+                        <button
+                          type="button"
+                          className="btn"
+                          data-bs-toggle="modal"
+                          data-bs-target="#deletePostModal"
+                          title="Del"
+                          onClick={(e) => setDeleteItem({ type: "post", id })}
+                        >
+                          <FontAwesomeIcon icon={faTrashAlt} color="red" />
+                        </button>
+                      </div>
+                    ) : (
+                      ""
+                    )}
                   </div>
                   <h2>{post.title}</h2>
                   <p className="mt-3 mb-4 pb-2">{post.content}</p>
 
                   <div className="small d-flex justify-content-start">
-                    <a href="#!" className="d-flex align-items-center me-3">
+                    <button
+                      onClick={(e) => {
+                        handleLike(e);
+                      }}
+                      className="d-flex align-items-center me-3"
+                    >
                       <FontAwesomeIcon icon={faThumbsUp} className="me-2" />
                       <p className="mb-0">Like</p>
-                    </a>
+                    </button>
                     <a href="#!" className="d-flex align-items-center me-3">
                       <FontAwesomeIcon icon={faCommentDots} className="me-2" />
                       <p className="mb-0">Comment</p>
@@ -207,12 +283,25 @@ const PostDetail = () => {
                               <span className="small"> reply</span>
                             </a>
 
-                            <button
-                              className="btn"
-                              onClick={(e) => handleDeleteCmt(e, comment.id)}
-                            >
-                              <FontAwesomeIcon icon={faTrash} />
-                            </button>
+                            {user.userID === comment.user.id ? (
+                              <button
+                                className="btn"
+                                type="button"
+                                data-bs-toggle="modal"
+                                data-bs-target="#deletePostModal"
+                                title="Del"
+                                onClick={(e) =>
+                                  setDeleteItem({
+                                    type: "comment",
+                                    id: comment.id,
+                                  })
+                                }
+                              >
+                                <FontAwesomeIcon icon={faTrash} />
+                              </button>
+                            ) : (
+                              ""
+                            )}
                           </div>
                         </div>
                         <p className="small mb-0">{comment.content}</p>
@@ -249,6 +338,123 @@ const PostDetail = () => {
         ) : (
           <Loader />
         )}
+      </div>
+      {/* delete confirm Form */}
+      <div
+        className="modal fade"
+        id="deletePostModal"
+        tabIndex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="exampleModalLabel">
+                Delete {deleteItem.type}?
+              </h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div className="modal-body">
+              Are you sure you want to delete this {deleteItem.type}?
+            </div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-danger"
+                data-bs-dismiss="modal"
+                onClick={(e) => handleDelete(e, deleteItem)}
+              >
+                Delete
+              </button>
+              <button
+                type="button"
+                data-bs-dismiss="modal"
+                className="btn btn-primary"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* update Form */}
+      <div
+        className="modal fade"
+        id="updatePostModal"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabIndex="-1"
+        aria-labelledby="staticBackdropLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="staticBackdropLabel">
+                Update post
+              </h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div className="modal-body">
+              <form id="formUpdate" onSubmit={(e) => handleUpdate(e)}>
+                <div className="mb-3">
+                  <label htmlFor="title" className="form-label">
+                    Title
+                  </label>
+                  <input
+                    className="form-control"
+                    id="title"
+                    name="title"
+                    value={post.title ? post.title : ""}
+                    onChange={(e) =>
+                      setPost({ ...post, title: e.target.value })
+                    }
+                  />
+                </div>
+
+                <div className="mb-3">
+                  <label htmlFor="content" className="form-label">
+                    Content
+                  </label>
+                  <textarea
+                    className="form-control"
+                    name="content"
+                    onChange={(e) =>
+                      setPost({ ...post, content: e.target.value })
+                    }
+                    value={post ? post?.content : ""}
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  className="btn btn-primary"
+                  data-bs-dismiss="modal"
+                >
+                  Submit
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-secondary ms-2"
+                  data-bs-dismiss="modal"
+                >
+                  Close
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );

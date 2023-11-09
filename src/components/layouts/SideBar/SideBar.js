@@ -1,12 +1,10 @@
 import {
-  faBarChart,
   faDashboard,
   faFileText,
-  faLayerGroup,
   faNewspaper,
   faPlusCircle,
   faSearch,
-  faTags,
+  faTrash,
   faUser,
   faUserShield,
 } from "@fortawesome/free-solid-svg-icons";
@@ -30,6 +28,11 @@ const SideBar = ({ children }) => {
     toast.warning("You need to login!");
 
     history.push("/login");
+  }
+  if (user.group !== "admin") {
+    toast.warning("You don't have permission !!!");
+
+    history.push("/");
   }
 
   async function logOut() {
@@ -59,21 +62,26 @@ const SideBar = ({ children }) => {
           <span className="navbar-toggler-icon"></span>
         </button>
 
-        <div className="input-group d-flex flex-nowrap">
+        <form
+          action="/"
+          method="get"
+          className="input-group d-flex flex-nowrap"
+        >
           <input
             className="form-control form-control-dark w-100"
             type="text"
             placeholder="Search"
             aria-label="Search"
+            name="searchTerm"
           />
           <button
             id="search-button"
-            type="button"
+            type="submit"
             className="btn btn-secondary border-0 rounded-0"
           >
             <FontAwesomeIcon icon={faSearch} />
           </button>
-        </div>
+        </form>
 
         <div className="">
           <div className=" px-3 d-none d-md-block">
@@ -98,12 +106,18 @@ const SideBar = ({ children }) => {
                   </button>
                   <ul className="dropdown-menu" aria-labelledby="userSettings">
                     <li>
-                      <NavLink className="dropdown-item" to="/profile">
+                      <NavLink
+                        className="dropdown-item"
+                        to={"/profile" + user.userId}
+                      >
                         Action
                       </NavLink>
                     </li>
                     <li>
-                      <NavLink className="dropdown-item" to="/profile">
+                      <NavLink
+                        className="dropdown-item"
+                        to={`/profile/${user.userID}`}
+                      >
                         Profile
                       </NavLink>
                     </li>
@@ -156,22 +170,20 @@ const SideBar = ({ children }) => {
                     className="rounded-circle"
                   />
                   <span className="d-none d-sm-inline mx-1 text-dark">
-                    loser
+                    {user.userName}
                   </span>
                 </a>
                 <ul className="dropdown-menu dropdown-menu-dark text-small shadow">
-                  <li>
-                    <a className="dropdown-item" href="#">
-                      New project...
-                    </a>
-                  </li>
                   <li>
                     <a className="dropdown-item" href="#">
                       Settings
                     </a>
                   </li>
                   <li>
-                    <a className="dropdown-item" href="#">
+                    <a
+                      className="dropdown-item"
+                      href={`/profile/${user.userID}`}
+                    >
                       Profile
                     </a>
                   </li>
@@ -187,7 +199,11 @@ const SideBar = ({ children }) => {
               </div>
               <ul className="nav flex-column">
                 <li className="nav-item">
-                  <a className="nav-link active" aria-current="page" href="/">
+                  <a
+                    className="nav-link active"
+                    aria-current="page"
+                    href="/dashboard"
+                  >
                     <FontAwesomeIcon className="px-1" icon={faDashboard} />
                     Dashboard
                   </a>
@@ -205,21 +221,9 @@ const SideBar = ({ children }) => {
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" href="/Categories">
-                    <FontAwesomeIcon className="px-1" icon={faTags} />
-                    Categories
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link" href="/">
-                    <FontAwesomeIcon className="px-1" icon={faBarChart} />
-                    Reports
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link" href="/">
-                    <FontAwesomeIcon className="px-1" icon={faLayerGroup} />
-                    Integrations
+                  <a className="nav-link" href="/trash">
+                    <FontAwesomeIcon className="px-1" icon={faTrash} />
+                    Trash
                   </a>
                 </li>
               </ul>
@@ -239,18 +243,6 @@ const SideBar = ({ children }) => {
                   <a className="nav-link" href="/">
                     <FontAwesomeIcon className="px-1" icon={faFileText} />
                     Current month
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link" href="/">
-                    <FontAwesomeIcon className="px-1" icon={faFileText} />
-                    Last quarter
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link" href="/">
-                    <FontAwesomeIcon className="px-1" icon={faFileText} />
-                    Social engagement
                   </a>
                 </li>
                 <li className="nav-item">
@@ -291,7 +283,6 @@ const SideBar = ({ children }) => {
               </div>
             </div>
 
-            <h2>Section title</h2>
             {children}
           </main>
         </div>
