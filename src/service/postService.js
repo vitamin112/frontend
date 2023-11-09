@@ -1,27 +1,26 @@
 import axios from "../config/axios";
 const getPost = async (id) => {
-  let post = await axios.get(`http://localhost:8080/api/v1/post/` + id);
+  let post = await axios.get(`post/` + id);
 
   return { data: post.data.data };
 };
 
 const update = async (id, newData) => {
-  let result = await axios.put(
-    `http://localhost:8080/api/v1/post/update/${id}`,
-    { ...newData, content: newData.content, title: newData.title }
-  );
+  let result = await axios.put(`post/update/${id}`, {
+    ...newData,
+    content: newData.content,
+    title: newData.title,
+  });
   return result.data;
 };
 
 const delPost = async (id) => {
-  let result = await axios.delete(
-    `http://localhost:8080/api/v1/post/delete/${id}`
-  );
+  let result = await axios.delete(`post/delete/${id}`);
   return result.data;
 };
 
 const create = async ({ ...newData }) => {
-  let result = await axios.post(`http://localhost:8080/api/v1/post/create`, {
+  let result = await axios.post(`post/create`, {
     content: newData.postContent,
     title: newData.postTitle,
   });
@@ -29,36 +28,25 @@ const create = async ({ ...newData }) => {
 };
 
 const comment = async (id, content) => {
-  let result = await axios.post(
-    `http://localhost:8080/api/v1/post/${id}/comment`,
-    { content }
-  );
+  let result = await axios.post(`post/${id}/comment`, { content });
   return result.data;
 };
 
 const search = async (searchTerm) => {
-  let result = await axios.get(
-    `http://localhost:8080/api/v1/post/search/?searchTerm=${searchTerm}`
-  );
+  let result = await axios.get(`post/search/?searchTerm=${searchTerm}`);
   return result.data;
 };
 const destroy = async (id) => {
-  let result = await axios.delete(
-    `http://localhost:8080/api/v1/post/destroy/${id}`
-  );
+  let result = await axios.delete(`post/destroy/${id}`);
   return result.data;
 };
 const restore = async (id) => {
-  let result = await axios.post(
-    `http://localhost:8080/api/v1/post/restore/${id}`
-  );
+  let result = await axios.post(`post/restore/${id}`);
   return result.data;
 };
 
 const deleteCmt = (postId, cmtId) => {
-  return axios.delete(
-    `http://localhost:8080/api/v1/post/${postId}/comment/${cmtId}`
-  );
+  return axios.delete(`post/${postId}/comment/${cmtId}`);
 };
 
 const createUser = () => {
@@ -66,7 +54,7 @@ const createUser = () => {
 };
 
 const resetPassword = (key, code, password) => {
-  return axios.post("http://localhost:8080/api/v1/reset-password", {
+  return axios.post("reset-password", {
     key,
     code,
     password,
@@ -74,7 +62,7 @@ const resetPassword = (key, code, password) => {
 };
 
 const generateResetCode = (key) => {
-  return axios.post("http://localhost:8080/api/v1/generate-reset-code", {
+  return axios.post("generate-reset-code", {
     key,
   });
 };

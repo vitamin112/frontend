@@ -91,6 +91,11 @@ const App = () => {
             <UserLayout />
           </Route>
 
+          <Route path="/frontend" exact>
+            <Nav />
+            <UserLayout />
+          </Route>
+
           <Route path="*">
             <NotFound />
           </Route>

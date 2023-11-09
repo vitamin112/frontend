@@ -156,7 +156,6 @@ const PostDetail = () => {
                     <div>
                       <h6 className="fw-bold text-primary mb-1">
                         {author?.userName}
-                        {" -  : "} {postLike}
                       </h6>
                       <p className="text-muted small mb-0">
                         Shared publicly - {timeAgo(post.createdAt)}
@@ -198,8 +197,8 @@ const PostDetail = () => {
                       }}
                       className="d-flex align-items-center me-3"
                     >
+                      <p className="m-0 me-1">{postLike} </p>
                       <FontAwesomeIcon icon={faThumbsUp} className="me-2" />
-                      <p className="mb-0">Like</p>
                     </button>
                     <a href="#!" className="d-flex align-items-center me-3">
                       <FontAwesomeIcon icon={faCommentDots} className="me-2" />
