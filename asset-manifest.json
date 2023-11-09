@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/vitamin112/frontend/static/css/main.76ab6463.css",
+    "main.js": "/vitamin112/frontend/static/js/main.5ac22274.js",
+    "static/js/787.cda612ba.chunk.js": "/vitamin112/frontend/static/js/787.cda612ba.chunk.js",
+    "static/media/dribbble_1.gif": "/vitamin112/frontend/static/media/dribbble_1.181c5a6430bcb77324b1.gif",
+    "index.html": "/vitamin112/frontend/index.html",
+    "main.76ab6463.css.map": "/vitamin112/frontend/static/css/main.76ab6463.css.map",
+    "main.5ac22274.js.map": "/vitamin112/frontend/static/js/main.5ac22274.js.map",
+    "787.cda612ba.chunk.js.map": "/vitamin112/frontend/static/js/787.cda612ba.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.76ab6463.css",
+    "static/js/main.5ac22274.js"
+  ]
+}
